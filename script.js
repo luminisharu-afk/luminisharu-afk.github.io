@@ -9,6 +9,21 @@ if (year) {
 }
 
 if (menuButton && menu) {
+  const closeMenu = () => {
+    menu.classList.remove("open");
+    document.body.classList.remove("menu-open");
+    menuButton.setAttribute("aria-expanded", "false");
+  };
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu.classList.contains("open")) {
+      closeMenu();
+      menuButton.focus();
+    }
+  });
+
+  window.matchMedia("(max-width: 860px)").addEventListener("change", closeMenu);
+
   menuButton.addEventListener("click", () => {
     const isOpen = menu.classList.toggle("open");
     document.body.classList.toggle("menu-open", isOpen);
@@ -17,9 +32,7 @@ if (menuButton && menu) {
 
   menu.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-      menu.classList.remove("open");
-      document.body.classList.remove("menu-open");
-      menuButton.setAttribute("aria-expanded", "false");
+      closeMenu();
     });
   });
 }
